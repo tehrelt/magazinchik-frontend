@@ -1,3 +1,13 @@
+export interface IManufacturer {
+    id: number
+    name: string
+}
+
+export interface IBrand {
+    id: number
+    name: string
+}
+
 export interface ISneakerSize {
     id: number
     euSize: number
