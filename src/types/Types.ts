@@ -8,6 +8,16 @@ export interface IBrand {
     name: string
 }
 
+export interface IZipType {
+    id: number
+    name: string
+}
+
+export interface ICloth {
+    id: number
+    name: string
+}
+
 export interface ISneakerSize {
     id: number
     euSize: number

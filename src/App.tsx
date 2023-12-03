@@ -3,24 +3,28 @@ import {ISneaker} from "./types/Types";
 import {SneakersList} from "./components/SneakersList";
 import {Container, Form} from "react-bootstrap";
 import {CreateSneakerForm} from "./components/forms/CreateSneakerForm";
+import {api} from "./configs/config";
 
 function App() {
 
     const [sneakers, setSneakers] = useState<ISneaker[]>([]);
 
-    useEffect(() => {
-        fetch("http://localhost:5178/api/v1/sneakers")
+    const fetchData = () => {
+        fetch(`${api}/sneakers`)
             .then((response) => response.json())
             .then((data) => setSneakers(data));
+    }
 
-    }, [setSneakers])
+    useEffect(() => {
+        fetchData()
+    }, [])
 
     return (
         <div className="App">
             <h1>Magazinchik</h1>
             <Container>
                 <h2>Create new Sneaker</h2>
-                <CreateSneakerForm/>
+                <CreateSneakerForm onCreate={fetchData}/>
             </Container>
 
             <SneakersList sneakers={sneakers}/>
