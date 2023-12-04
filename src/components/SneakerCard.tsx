@@ -26,13 +26,10 @@ export const SneakerCard = ({ sneaker }: Props) => {
         }
         fetchData()
     }, [])
-    
-    const remove = async (id: number) => {
-       await api.delete(`sneakers/${id}`)
-    }
 
     const removeImage = async (sneakerId: number, imageId: number) => {
         await api.delete(`sneakers/${sneakerId}/photos/${imageId}`);
+        setImages(images.filter((image) => image.id != imageId));
     }
 
     return <>
@@ -47,7 +44,6 @@ export const SneakerCard = ({ sneaker }: Props) => {
                     <Button onClick={() => removeImage(sneaker.id, image.id)} variant={'danger'}>Delete Image</Button>
                 </>
             ))}
-            <Button onClick={() => remove(sneaker.id)} variant={'danger'}>Delete</Button>
         </div>
     </>;
 };

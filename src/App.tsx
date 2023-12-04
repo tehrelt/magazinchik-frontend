@@ -15,8 +15,13 @@ function App() {
     }
 
     useEffect(() => {
-        fetchData()
+        fetchData().then(r => console.log("sneakers loaded"))
     }, [])
+
+    const onRemove = async (id: number) => {
+        await api.delete(`sneakers/${id}`);
+        setSneakers(sneakers.filter(s => s.id != id))
+    }
 
     return (
         <div className="App">
@@ -29,7 +34,7 @@ function App() {
                 <AddPhotoToSneaker/>
             </Container>
 
-            <SneakersList sneakers={sneakers}/>
+            <SneakersList onRemove={onRemove} sneakers={sneakers}/>
         </div>
   );
 }

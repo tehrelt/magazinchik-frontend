@@ -12,7 +12,6 @@ class Api {
         console.log(`get on ${this.url}/${path}`)
         try {
             const response = await axios.get(`${this.url}/${path}`);
-            console.log(response.data)
             return response.data
         } catch (error: any) {
             throw error

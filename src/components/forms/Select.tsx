@@ -50,7 +50,6 @@ export const Select = ({url, functor, disabled, required, errorMessage, onChange
         if(Number.isNaN(value)) {
             return;
         }
-        console.log(value);
 
         setSelected(Number(value))
         onChange(Number(value));

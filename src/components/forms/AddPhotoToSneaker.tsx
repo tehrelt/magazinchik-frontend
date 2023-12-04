@@ -16,8 +16,8 @@ export const AddPhotoToSneaker = (props: Props) => {
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
-        if(selected == 0 || !file) {
-            return
+        if(!selected || !file) {
+            return;
         }
 
         const formData = new FormData();
