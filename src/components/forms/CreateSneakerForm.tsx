@@ -2,17 +2,15 @@ import * as React from 'react';
 import {Button, Col, Form, InputGroup, Row} from "react-bootstrap";
 import {useEffect, useState} from "react";
 import {IBrand, ICloth, IManufacturer, ISneakerSize, IZipType} from "../../types/Types";
-import {api} from "../../configs/config";
 import {Select} from "./Select";
 import {ISneakerInput} from "../../types/InputDto";
+import {api} from "../../api/api";
 
 type Props = {
     onCreate: () => void
 };
 
 export const CreateSneakerForm = ({onCreate}: Props) => {
-
-
     const [name, setName] = useState<string>("");
     const [manufacturerId, setManufacturerId] = useState<number>(0)
     const [brandId, setBrandId] = useState<number>(0)
@@ -28,7 +26,6 @@ export const CreateSneakerForm = ({onCreate}: Props) => {
 
 
         if(brandId == 0 || zipTypeId == 0 || clothId == 0 || sizeId == 0) {
-            console.log("AAAAAAAAAAAAAAAAAAAAAAA")
             return;
         }
 
@@ -43,14 +40,7 @@ export const CreateSneakerForm = ({onCreate}: Props) => {
             "price": price
         }
 
-        await fetch(`${api}/sneakers/`, {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(dto)
-        })
-
+        await api.post<ISneakerInput>('sneakers', dto);
         onCreate()
 
     }
@@ -68,16 +58,16 @@ export const CreateSneakerForm = ({onCreate}: Props) => {
             <Form.Label>Manufacturer: </Form.Label>
             <Select
                 required={true}
-                url={`${api}/manufacturers`}
+                url={'manufacturers'}
                 functor={(item) => item.name}
-                callback={(id) => setManufacturerId(id)}
+                onChange={(id) => setManufacturerId(id)}
             />
 
             <Form.Label> Brand: </Form.Label>
             <Select required={true}
-                url={manufacturerId != 0 ? `${api}/brands/?manufacturer_id=${manufacturerId}` : undefined}
+                url={manufacturerId != 0 ? `brands/?manufacturer_id=${manufacturerId}` : undefined}
                 functor={(item: IBrand) => item.name}
-                callback={id => setBrandId(id)}
+                onChange={id => setBrandId(id)}
                 errorMessage={manufacturerId != 0 ? "Choose a manufacturer first" : "No data"}
             />
 
@@ -92,21 +82,21 @@ export const CreateSneakerForm = ({onCreate}: Props) => {
 
             <Form.Label>ZipType: </Form.Label>
             <Select required={true}
-                url={`${api}/zips`}
+                url={`zips`}
                 functor={(item) => item.name}
-                callback={(id) => setZipTypeId(id)}
+                onChange={(id) => setZipTypeId(id)}
             />
             <Form.Label>Cloth: </Form.Label>
             <Select required={true}
-                url={`${api}/clothes`}
+                url={`clothes`}
                 functor={(item) => item.name}
-                callback={(id) => setClothId(id)}
+                onChange={(id) => setClothId(id)}
             />
             <Form.Label>Size: </Form.Label>
             <Select required={true}
-                url={`${api}/sneaker_sizes`}
+                url={`sneaker_sizes`}
                 functor={(item: ISneakerSize) => `${item.euSize} | ${item.usSize}`}
-                callback={(id) => setSizeId(id)}
+                onChange={(id) => setSizeId(id)}
             />
 
             <Form.Label>Release date: </Form.Label>

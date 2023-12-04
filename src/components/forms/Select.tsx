@@ -1,8 +1,7 @@
-// @flow
 import * as React from 'react';
-import {ChangeEventHandler, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {Form} from "react-bootstrap";
-import {isDisabled} from "@testing-library/user-event/dist/utils";
+import {api} from "../../api/api";
 
 type Props = {
     url?: string
@@ -12,13 +11,13 @@ type Props = {
     canFetch?: boolean
 
     functor: (item: any) => string;
-    callback: (id: number) => void
+    onChange: (id: number) => void
 };
 
 type Item = {
     id: number
 }
-export const Select = ({url, functor, disabled, required, errorMessage, callback}: Props) => {
+export const Select = ({url, functor, disabled, required, errorMessage, onChange}: Props) => {
 
     const [data, setData] = useState<Item[]>([]);
     const [selected, setSelected] = useState<number>();
@@ -34,15 +33,15 @@ export const Select = ({url, functor, disabled, required, errorMessage, callback
         }
 
         const fetchData = async () => {
-            const resp = await fetch(url);
 
-            if(resp.status == 200) {
-                const data = await resp.json();
-
+            try {
+                const data =  await api.get(url)
                 setData(data);
-            } else {
-                setData([]);
+            } catch (e) {
+                console.log(`Error occured: ${e}`)
+                setData([])
             }
+
         }
         fetchData()
     }, [url])
@@ -54,7 +53,7 @@ export const Select = ({url, functor, disabled, required, errorMessage, callback
         console.log(value);
 
         setSelected(Number(value))
-        callback(Number(value));
+        onChange(Number(value));
     }
 
     return (

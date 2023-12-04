@@ -3,16 +3,15 @@ import {ISneaker} from "./types/Types";
 import {SneakersList} from "./components/SneakersList";
 import {Container, Form} from "react-bootstrap";
 import {CreateSneakerForm} from "./components/forms/CreateSneakerForm";
-import {api} from "./configs/config";
+import {AddPhotoToSneaker} from "./components/forms/AddPhotoToSneaker";
+import {api} from "./api/api";
 
 function App() {
 
     const [sneakers, setSneakers] = useState<ISneaker[]>([]);
 
-    const fetchData = () => {
-        fetch(`${api}/sneakers`)
-            .then((response) => response.json())
-            .then((data) => setSneakers(data));
+    const fetchData = async () => {
+       setSneakers(await api.get('sneakers'))
     }
 
     useEffect(() => {
@@ -25,6 +24,9 @@ function App() {
             <Container>
                 <h2>Create new Sneaker</h2>
                 <CreateSneakerForm onCreate={fetchData}/>
+
+                <h2>Add a photo to exists sneaker</h2>
+                <AddPhotoToSneaker/>
             </Container>
 
             <SneakersList sneakers={sneakers}/>
