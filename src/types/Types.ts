@@ -37,10 +37,16 @@ export interface ISneaker {
     price: number
 }
 
+export interface IPhoto {
+    id: number
+    url: string
+}
+
 export interface ISneakersPhotos {
-    photos: string[]
+    photos: IPhoto[]
     count: number
 }
+
 
 export interface ISneakersPhoto {
     "id": number

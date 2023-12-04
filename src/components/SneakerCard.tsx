@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {ISneaker, ISneakersPhoto, ISneakersPhotos} from "../types/Types";
+import {IPhoto, ISneaker, ISneakersPhoto, ISneakersPhotos} from "../types/Types";
 import {Button, Image} from "react-bootstrap";
 import {api} from "../api/api";
 import {useEffect, useState} from "react";
@@ -10,7 +10,7 @@ type Props = {
 };
 export const SneakerCard = ({ sneaker }: Props) => {
 
-    const [images, setImages] = useState<string[]>([]);
+    const [images, setImages] = useState<IPhoto[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -31,6 +31,10 @@ export const SneakerCard = ({ sneaker }: Props) => {
        await api.delete(`sneakers/${id}`)
     }
 
+    const removeImage = async (sneakerId: number, imageId: number) => {
+        await api.delete(`sneakers/${sneakerId}/photos/${imageId}`);
+    }
+
     return <>
         <div className="sneaker-card">
             <h2>Name: {sneaker.name}</h2>
@@ -38,7 +42,10 @@ export const SneakerCard = ({ sneaker }: Props) => {
             <span>cloth: {sneaker.cloth}</span> <br/>
             <span>price: {sneaker.price} rub.</span> <br/>
             {images.length > 0 && images.map((image) => (
-                <img src={image} width={200} height={200}/>
+                <>
+                    <img src={image.url} width={200} height={200}/>
+                    <Button onClick={() => removeImage(sneaker.id, image.id)} variant={'danger'}>Delete Image</Button>
+                </>
             ))}
             <Button onClick={() => remove(sneaker.id)} variant={'danger'}>Delete</Button>
         </div>

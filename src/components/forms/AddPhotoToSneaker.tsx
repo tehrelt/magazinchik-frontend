@@ -40,7 +40,7 @@ export const AddPhotoToSneaker = (props: Props) => {
                 onChange={(id: number) => setSelected(id)}/>
 
             <Form.Group controlId="formFile" className="mb-3">
-                <Form.Label>Default file input example</Form.Label>
+                <Form.Label>Choose a image</Form.Label>
                 <Form.Control required id="file" type="file" onChange={handleChangeFile}/>
             </Form.Group>
 
