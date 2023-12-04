@@ -6,13 +6,12 @@ import {Select} from "./Select";
 import {api} from "../../api/api";
 
 type Props = {
+
 };
 export const AddPhotoToSneaker = (props: Props) => {
 
     const [selected, setSelected] = useState<number>();
     const [file, setFile] = useState<File>()
-
-    const uploadRef = useRef();
 
     const handleSubmit = async (e: any) => {
         e.preventDefault();
@@ -21,6 +20,7 @@ export const AddPhotoToSneaker = (props: Props) => {
         }
 
         const formData = new FormData();
+
         formData.append('file', file);
 
         await api.post(`sneakers/${selected}/photos/`, formData);

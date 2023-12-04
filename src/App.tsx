@@ -14,6 +14,7 @@ function App() {
        setSneakers(await api.get('sneakers'))
     }
 
+
     useEffect(() => {
         fetchData().then(r => console.log("sneakers loaded"))
     }, [])
