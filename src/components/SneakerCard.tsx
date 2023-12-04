@@ -10,19 +10,19 @@ type Props = {
 };
 export const SneakerCard = ({ sneaker }: Props) => {
 
-    const [image, setImage] = useState<string>("");
+    const [images, setImages] = useState<string[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
             const response: ISneakersPhotos = await api.get(`sneakers/${sneaker.id}/photos`);
 
-            if(!response.photosIds) {
+            if(response.count === 0) {
                 return;
             }
 
-            const imageResponse: ISneakersPhoto = await api.get(`sneakers/${sneaker.id}/photos/${response.photosIds[0]}`);
+            let imgs = response.photos.map((image) => image);
 
-            setImage(imageResponse.photoUrl);
+            setImages(imgs);
         }
         fetchData()
     }, [])
@@ -37,7 +37,9 @@ export const SneakerCard = ({ sneaker }: Props) => {
             <span>brand: {sneaker.brand}</span> <br/>
             <span>cloth: {sneaker.cloth}</span> <br/>
             <span>price: {sneaker.price} rub.</span> <br/>
-            {image != "" && <img src={image} width={150} height={150}/>}
+            {images.length > 0 && images.map((image) => (
+                <img src={image} width={200} height={200}/>
+            ))}
             <Button onClick={() => remove(sneaker.id)} variant={'danger'}>Delete</Button>
         </div>
     </>;

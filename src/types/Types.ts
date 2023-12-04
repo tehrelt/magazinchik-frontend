@@ -38,8 +38,7 @@ export interface ISneaker {
 }
 
 export interface ISneakersPhotos {
-    sneakersId: number
-    photosIds: number[]
+    photos: string[]
     count: number
 }
 
